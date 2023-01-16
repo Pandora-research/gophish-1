@@ -65,7 +65,7 @@ with open(args.csv, newline='') as csvfile:
 			group = Group(name=groupname, targets=targets)
 			group = api.groups.post(group)
 
-			print('New User group ID: {0}.'.format(group.id))
+			print('New User group ID ({}, {}): {}.'.format(firstname, lastname, group.id))
 
 	else:
 
@@ -89,7 +89,7 @@ with open(args.csv, newline='') as csvfile:
 		group = Group(name=groupname, targets=targets)
 		group = api.groups.post(group)
 
-		print('New User group ID: {0}.'.format(group.id))
+		print('New User group ID ({}, {}): {}.'.format(firstname, lastname, group.id))
 		
 
 #end
