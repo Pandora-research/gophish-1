@@ -43,7 +43,15 @@ python import-users.py -c 'users-template.csv' -n 'User Group 1' -t
 **Export User Groups to CSV file (To create user_groups - email_templates matches)**
 
 ```python3
-python export-groups.py -c users_groups-email_templates.csv
+python export-groups.py -c 'users_groups-email_templates.csv'
+```
+
+**Edit users_groups-email_templates.csv file and fill in the email templates for each user group.**
+
+**Generate final Email templates for each group of users**
+
+```python3
+python create-templates.py -c 'users_groups-email_templates.csv' -t 'email-templates' -d 'final-templates'
 ```
 
 ---

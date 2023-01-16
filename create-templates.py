@@ -1,39 +1,56 @@
 #! python
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
 import sys
 import argparse
 import shutil
 import csv
 import os
+import configparser
+from gophish import Gophish
+from gophish.models import *
 
 parser = argparse.ArgumentParser('Create HTML Templates for GoPhish')
-parser.add_argument('-t', '--template', help="An HTML template to copy and replace links.")
+parser.add_argument('-c', '--csv', help="A CSV file containing the User Groups names and their corresponding email templates filenames.")
+parser.add_argument('-t', '--templates_dir', help="A directory containing all the email templates.")
 parser.add_argument('-d', '--destination', help="Destination directory.")
-parser.add_argument('-c', '--csv', help="Targets and URL codes CSV.")
-parser.add_argument('-l', '--link', help="URL link to replace.")
+
+TrackingCode_Template ='[tracking_code]'
 
 args = parser.parse_args()
 
-if args.template is None:
-	sys.exit("Please provide a template.")
-
-if not os.path.isfile(args.template):
-	sys.exit("Please provide an existing template file.")
-
-if args.destination is None:
-	sys.exit("Please provide a destination directory.")
-
-if not os.path.exists(args.destination):
-	sys.exit("Please provide an existing destination directory.")
-
 if args.csv is None:
-	sys.exit("Please provide a CSV file containing the targets and the corresponding URL codes.")
+	sys.exit("Please provide a CSV file containing the User Groups names and their corresponding email templates filenames.")
 
 if not os.path.isfile(args.csv):
 	sys.exit("Please provide an existing CSV file.")
 
-if args.link is None:
-	sys.exit("Please provide a URL link to replace.")
+if args.templates_dir is None:
+	sys.exit("Please provide the directory which contains all the email templates.")
+
+if not os.path.exists(args.templates_dir):
+	sys.exit("Please provide an existing templates directory.")
+
+if args.destination is None:
+	sys.exit("Please provide a destination directory for the generated email templates.")
+
+if not os.path.exists(args.destination):
+	sys.exit("Please provide an existing destination directory.")
+
+config = configparser.ConfigParser()
+config.read('config.config')
+
+api = Gophish(config['DEFAULT']['API_KEY'], host=config['DEFAULT']['GOPHISH_URL'], verify=False)
+
+groups = api.groups.get()
+groups.sort(key=lambda x: x.name)
+groupsMap = {}
+
+for group in groups:
+	groupsMap[group.name] = group
 
 with open(args.csv, newline='') as csvfile:
 
@@ -41,22 +58,34 @@ with open(args.csv, newline='') as csvfile:
 
 	for row in reader:
 
-		name = row['Name'].strip().replace(" ", "_")
-		code = row['Code'].strip()
+		groupName = row['UserGroupName'].strip()
+		templateFilename = row['EmailTemplateFilename'].strip()
+		templatePath = os.path.join(args.templates_dir, templateFilename)
 
-		tempdest = os.path.join(args.destination, name + '-temp-' + '.txt')
-		finaldest = os.path.join(args.destination, name + '.txt')
+		if groupName not in groupsMap:
+			print("The user group name ({}) does not exist in the GoPhish database.\n".format(groupName))
+			continue
 
-		if os.path.isfile(tempdest):
-			os.remove(tempdest)
+		if not os.path.isfile(templatePath):
+			print("The email template file ({}) does not exist in the directory.\n".format(templatePath))
+			continue
 
-		shutil.copyfile(args.template, tempdest)
+		for target in groupsMap[groupName].targets:
+			#print("{}, {}, {}, {}\n".format(target.first_name, target.last_name, target.email, target.position))
 
-		with open(tempdest, "rt") as fin:
-			with open(finaldest, "wt") as fout:
-				for line in fin:
-					fout.write(line.replace(args.link, args.link + '?' + code))
+			tempdest = os.path.join(args.destination, groupName + '-temp-' + '.txt')
+			finaldest = os.path.join(args.destination, groupName + '.txt')
+
+			if os.path.isfile(tempdest):
+				os.remove(tempdest)
+
+			shutil.copyfile(templatePath, tempdest)
+
+			with open(tempdest, "rt") as fin:
+				with open(finaldest, "wt") as fout:
+					for line in fin:
+						fout.write(line.replace(TrackingCode_Template, target.position))
 					
-		os.remove(tempdest)
+			os.remove(tempdest)
 
 #end

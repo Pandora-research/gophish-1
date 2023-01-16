@@ -28,7 +28,7 @@ api = Gophish(config['DEFAULT']['API_KEY'], host=config['DEFAULT']['GOPHISH_URL'
 
 with open(args.csv, 'w') as f:
 
-	f.write('User Group Name,Email Template Name')
+	f.write('UserGroupName,EmailTemplateFilename\n')
 
 	groups = api.groups.get()
 	groups.sort(key=lambda x: x.name)
