@@ -19,4 +19,10 @@ Tools and scripts for GoPhish automation
 python import-sending-profile.py -n 'SMTP Test Profile' -x 'smtp.office365.com' -p 587 -f myname@gmail.com
 ```
 
+**Create new Landing page**
+
+```python3
+python import-landing-page.py -n 'Landing page 1' -p './template.html'
+```
+
 ---
