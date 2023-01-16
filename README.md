@@ -60,4 +60,10 @@ python create-templates.py -c 'users_groups-email_templates.csv' -t 'email-templ
 python import-templates.py -t 'final-templates' -s 'Microsoft 365 security: You have messages in quarantine'
 ```
 
+#### Create new campaigns - Send emails
+
+```python3
+python import-campaigns.py -c 'campaigns.csv'
+```
+
 ---
