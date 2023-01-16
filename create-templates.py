@@ -71,8 +71,8 @@ with open(args.csv, newline='') as csvfile:
 			continue
 
 		for target in groupsMap[groupName].targets:
-			#print("{}, {}, {}, {}\n".format(target.first_name, target.last_name, target.email, target.position))
-
+			#target.position contains user tracking code
+			
 			tempdest = os.path.join(args.destination, groupName + '-temp-' + '.txt')
 			finaldest = os.path.join(args.destination, groupName + '.txt')
 
