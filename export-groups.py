@@ -21,6 +21,9 @@ args = parser.parse_args()
 if args.csv is None:
 	sys.exit("Please provide a CSV file to export User Groups.")
 
+if not os.path.isfile('config.config'):
+	sys.exit("Configuration file is missing.")
+	
 config = configparser.ConfigParser()
 config.read('config.config')
 

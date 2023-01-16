@@ -40,6 +40,9 @@ if args.destination is None:
 if not os.path.exists(args.destination):
 	sys.exit("Please provide an existing destination directory.")
 
+if not os.path.isfile('config.config'):
+	sys.exit("Configuration file is missing.")
+	
 config = configparser.ConfigParser()
 config.read('config.config')
 
@@ -72,7 +75,7 @@ with open(args.csv, newline='') as csvfile:
 
 		for target in groupsMap[groupName].targets:
 			#target.position contains user tracking code
-			
+
 			tempdest = os.path.join(args.destination, groupName + '-temp-' + '.txt')
 			finaldest = os.path.join(args.destination, groupName + '.txt')
 

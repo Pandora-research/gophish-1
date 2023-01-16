@@ -54,4 +54,10 @@ python export-groups.py -c 'users_groups-email_templates.csv'
 python create-templates.py -c 'users_groups-email_templates.csv' -t 'email-templates' -d 'final-templates'
 ```
 
+#### Create new templates
+
+```python3
+python import-templates.py -t 'final-templates' -s 'Microsoft 365 security: You have messages in quarantine'
+```
+
 ---

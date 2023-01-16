@@ -28,6 +28,9 @@ if args.html is None:
 if not os.path.isfile(args.html):
 	sys.exit("Please provide an existing HTML file.")
 
+if not os.path.isfile('config.config'):
+	sys.exit("Configuration file is missing.")
+	
 config = configparser.ConfigParser()
 config.read('config.config')
 

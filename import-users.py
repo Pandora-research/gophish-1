@@ -35,6 +35,9 @@ if not os.path.isfile(args.csv):
 if args.name is None and not args.group_per_user:
 	sys.exit("Please provide a Group name.")
 
+if not os.path.isfile('config.config'):
+	sys.exit("Configuration file is missing.")
+	
 config = configparser.ConfigParser()
 config.read('config.config')
 
