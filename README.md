@@ -22,7 +22,19 @@ python import-sending-profile.py -n 'SMTP Test Profile' -x 'smtp.office365.com' 
 **Create new Landing page**
 
 ```python3
-python import-landing-page.py -n 'Landing page 1' -p './template.html'
+python import-landing-page.py -n 'Landing page 1' -p 'template.html'
+```
+
+**Create user groups (create group per user)**
+
+```python3
+python import-users.py -c 'users-template.csv' -t -g
+```
+
+**Create one new user group (all users in the same group)**
+
+```python3
+python import-users.py -c 'users-template.csv' -n 'User Group 1' -t
 ```
 
 ---

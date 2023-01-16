@@ -46,6 +46,6 @@ smtp.interface_type = "SMTP"
 smtp.ignore_cert_errors = True
 
 smtp = api.smtp.post(smtp)
-print("SMTP profile ID: {}".format(smtp.id))
+print("New SMTP profile ID: {}".format(smtp.id))
 
 #end

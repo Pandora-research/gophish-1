@@ -37,6 +37,6 @@ with open(args.html, newline='') as htmlfile:
 	html=htmlfile.read()
 	page = Page(name=args.name, html=html)
 	page = api.pages.post(page)
-	print("Landing page ID: {}".format(page.id))
+	print("New Landing page ID: {}".format(page.id))
 
 #end
