@@ -69,4 +69,10 @@ python import-templates.py -t "final-templates" -s "Microsoft 365 security: You 
 python import-campaigns.py -c "campaigns.csv"
 ```
 
+#### Export Users
+
+```python3
+python export-users.py -c "users-exported.csv"
+```
+
 ---
