@@ -2,6 +2,9 @@
 
 GoPhish automation
 
+* Send different email to different recipients.
+* Track if user clicked the link when an external phishing page is being deployed (track user unique code in the web server logs).
+
 Licensed under GNU GPLv3.
 
 ---
