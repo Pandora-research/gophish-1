@@ -50,7 +50,7 @@ with open(args.csv, newline='') as csvfile:
 		smtp = SMTP(name=sendingProfileName)
 		url = gophishListener
 		campaign = Campaign(
-		    name=campaignName, groups=groups, page=page, template=template, smtp=smtp)
+		    name=campaignName, groups=groups, page=page, template=template, smtp=smtp, url=url)
 
 		campaign = api.campaigns.post(campaign)
 		print("New Campaign ID: {}".format(campaign.id))
