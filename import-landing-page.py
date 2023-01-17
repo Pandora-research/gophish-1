@@ -15,6 +15,7 @@ from gophish.models import *
 parser = argparse.ArgumentParser('Import Landing page into GoPhish')
 
 parser.add_argument('-n', '--name', type=str, help="SMTP profile name.")
+parser.add_argument('-r', '--url', type=str, help="Redirect URL link.")
 parser.add_argument('-p', '--html', help="HTML page.")
 
 args = parser.parse_args()
@@ -38,7 +39,12 @@ api = Gophish(config['DEFAULT']['API_KEY'], host=config['DEFAULT']['GOPHISH_URL'
 
 with open(args.html, newline='') as htmlfile:
 	html=htmlfile.read()
-	page = Page(name=args.name, html=html)
+	captureCredentials = True
+	capturePasswords = True
+	redirectUrl = args.url
+	page = Page(name=args.name, html=html,
+		capture_credentials=captureCredentials, capture_passwords=capturePasswords, 
+		redirect_url=redirectUrl)
 	page = api.pages.post(page)
 	print("New Landing page ID: {}".format(page.id))
 
