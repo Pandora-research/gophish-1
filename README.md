@@ -75,4 +75,10 @@ python import-campaigns.py -c "campaigns.csv"
 python export-users.py -c "users-exported.csv"
 ```
 
+#### Export Statistics
+
+```python3
+python export-stats.py -c "stats-exported.csv"
+```
+
 ---
