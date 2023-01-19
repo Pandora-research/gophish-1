@@ -32,12 +32,24 @@ config.read('config.config')
 api = Gophish(config['DEFAULT']['API_KEY'], host=config['DEFAULT']['GOPHISH_URL'], verify=False)
 
 
+campaigns = api.campaigns.get()
+campaigns.sort(key=lambda x: x.name)
+campaignsMap = {}
+
+for campaign in campaigns:
+	campaignsMap[campaign.name] = campaign
+
 with open(args.csv, newline='') as csvfile:
 
 	reader = csv.DictReader(csvfile)
 
 	for row in reader:
 		campaignName = row['CampaignName'].strip()
+
+		if campaignName in campaignsMap:
+			print("The campaign ({}) already exists in the GoPhish database.\n".format(campaignName))
+			continue
+
 		userGroupName = row['UserGroupName'].strip()
 		emailTemplateName = row['EmailTemplateName'].strip()
 		landingPageName = row['LandingPageName'].strip()
@@ -52,7 +64,14 @@ with open(args.csv, newline='') as csvfile:
 		campaign = Campaign(
 		    name=campaignName, groups=groups, page=page, template=template, smtp=smtp, url=url)
 
-		campaign = api.campaigns.post(campaign)
-		print("New Campaign ID: {}".format(campaign.id))
+
+		print("Creating New Campaign: {}".format(campaignName))
+
+		try:
+			campaign = api.campaigns.post(campaign)
+			print("New Campaign ID: {}".format(campaign.id))
+		except Exception:
+			print('Campaign already exists.')
+			continue
 
 #end

@@ -62,13 +62,19 @@ with open(args.csv, newline='') as csvfile:
 
 			targets = [User(first_name=firstname, last_name=lastname, email=email, position=position)]
 
-			groupname = firstname+'_'+lastname
+			groupname = firstname.replace(".", "")+'_'+lastname.replace(".", "")
 			groupname = groupname.upper()
 
-			group = Group(name=groupname, targets=targets)
-			group = api.groups.post(group)
+			print('Creating new User group ({}, {}).'.format(firstname, lastname))
 
-			print('New User group ID ({}, {}): {}.'.format(firstname, lastname, group.id))
+			group = Group(name=groupname, targets=targets)
+
+			try:
+				group = api.groups.post(group)
+				print('New User group ID ({}, {}): {}.'.format(firstname, lastname, group.id))
+			except Exception:
+				print('User group already exists.')
+				continue
 
 	else:
 
@@ -90,6 +96,7 @@ with open(args.csv, newline='') as csvfile:
 		groupname = args.name
 
 		group = Group(name=groupname, targets=targets)
+		
 		group = api.groups.post(group)
 
 		print('New User group ID ({}, {}): {}.'.format(firstname, lastname, group.id))

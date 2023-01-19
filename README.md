@@ -19,25 +19,25 @@ Licensed under GNU GPLv3.
 
 ### Usage
 
-#### Create new Sending Profile
+#### Import new Sending Profile
 
 ```python3
 python import-sending-profile.py -n "SMTP Test Profile" -x "smtp.office365.com" -p 587 -f "myname@gmail.com"
 ```
 
-#### Create new Landing page
+#### Import new Landing page
 
 ```python3
 python import-landing-page.py -n "Landing page 1" -p "template.html" -r "https://google.com"
 ```
 
-#### Create new user groups (create group per user)
+#### Import new user groups (create group per user)
 
 ```python3
 python import-users.py -c "users-template.csv" -t -g
 ```
 
-#### Create one new user group (all users in the same group)
+#### Import one new user group (all users in the same group)
 
 ```python3
 python import-users.py -c "users-template.csv" -n "User Group 1" -t
@@ -57,13 +57,13 @@ python export-groups.py -c "users_groups-email_templates.csv"
 python create-templates.py -c "users_groups-email_templates.csv" -t "email-templates" -d "final-templates"
 ```
 
-#### Create new templates
+#### Import new templates
 
 ```python3
 python import-templates.py -t "final-templates" -s "Microsoft 365 security: You have messages in quarantine"
 ```
 
-#### Create new campaigns - Send emails
+#### Import new campaigns - Send emails
 
 ```python3
 python import-campaigns.py -c "campaigns.csv"
@@ -75,10 +75,22 @@ python import-campaigns.py -c "campaigns.csv"
 python export-users.py -c "users-exported.csv"
 ```
 
+#### Export Groups
+
+```python3
+python export-groups.py -c "groups-exported.csv"
+```
+
 #### Export Statistics
 
 ```python3
 python export-stats.py -c "stats-exported.csv"
+```
+
+#### Delete all Groups
+
+```python3
+python delete-groups.py
 ```
 
 ---

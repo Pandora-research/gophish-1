@@ -84,6 +84,8 @@ with open(args.csv, newline='') as csvfile:
 
 			shutil.copyfile(templatePath, tempdest)
 
+			print("Creating email template file for Group {}.\n".format(groupName))
+
 			with open(tempdest, "rt") as fin:
 				with open(finaldest, "wt") as fout:
 					for line in fin:

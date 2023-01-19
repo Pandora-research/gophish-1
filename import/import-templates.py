@@ -46,11 +46,17 @@ for filename in os.listdir(args.templates_dir):
 			filename = filename.replace(".", "_").replace(" ", "_")
 			filename = filename.upper()
 
+			print('Importing new template {}.'.format(filename))
+			
 			with open(f, newline='') as htmlfile:
 				html=htmlfile.read()
 				template = Template(name=filename, html=html, subject=args.subject)
-				template = api.templates.post(template)
 
-				print('Νew template ID: {}.'.format(template.id))
+				try:
+					template = api.templates.post(template)
+					print('Νew template ID: {}.'.format(template.id))
+				except Exception:
+					print('Template already exists.')
+					continue
 
 #end
